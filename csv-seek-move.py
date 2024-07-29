@@ -35,6 +35,11 @@ def main():
     username = getpass.getuser()
     source_folder = os.path.join(r"C:\Users", username, "Downloads")
     destination_folder = os.path.join(source_folder, "done")
+    print("------")    
+    print("Monitor : " , source_folder)
+    print("Target  : " , destination_folder)
+    print("FileName: (f*.csv) || (f*.ods)")
+    print("------")
     
     while True:
         move_csv_files(source_folder, destination_folder)
