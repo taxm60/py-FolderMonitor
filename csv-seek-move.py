@@ -3,19 +3,21 @@ import shutil
 import time
 import getpass   #get current username
 
+class Color:
+  GREEN, RED, END = '\033[1;37m', '\033[1;31m', '\033[0m'
+
 def move_csv_files(source_folder, destination_folder):
     # Check if destination folder exists, create if it doesn't
     if not os.path.exists(destination_folder):
         os.makedirs(destination_folder)
     
     # List all files in the source folder
-    x     = os.listdir(source_folder)
-    files = [file.lower() for file in x]
+    files = os.listdir(source_folder)
     
     # Iterate through each file
     for file in files:
         # filename is like  (f***.csv) OR (f***.ods)
-        if file.startswith('f11') and (file.endswith('.csv') or file.endswith('.ods')):
+        if (file.startswith('f1') or file.startswith('F1')) and (file.endswith('.csv') or file.endswith('.ods')):
             # Construct full paths for source and destination            
             source_file = os.path.join(source_folder, file)
             destination_file = os.path.join(destination_folder, file)
@@ -24,10 +26,10 @@ def move_csv_files(source_folder, destination_folder):
             try:
                 shutil.move(source_file, destination_file)
                 print(f"[O] Moving: {file} -> {destination_folder}")
-                #print(f"\033[92m[O] Moving: {file} -> {destination_folder}\033[0m")  # Green color for success
+                #print(f"{Color.GREEN}[O] Moving: {source_file} -> {destination_file}{Color.END}")                
             except PermissionError:
                 print(f"[X] PermissionErr: Moving {file} ; keep retry...")
-                #print(f"\033[91;1m[X] PermissionErr: Moving {file} ; keep retry...\033[0m")  # Light red color for PermissionError
+                print(f"{Color.RED}[X] PermissionErr: Moving {source_file} ; Keep trying...{Color.END}")                
                 
             except Exception as e:
                 print(f"[X] Unexpected error: {e}")
